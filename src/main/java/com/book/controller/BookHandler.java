@@ -16,10 +16,14 @@ public class BookHandler {
     @Autowired
     private BookRepository bookRepository;
 
-//    @GetMapping("/findAll/?pageSize={pageSize}&pages={pages}&totalSize={totalSize}")
-    @GetMapping("/findAll/{page}/{size}")
-    public Page<Book> findAll(@PathVariable("page") Integer page, @PathVariable("size") Integer size){
-        PageRequest request = PageRequest.of(page,size);
+//    @GetMapping("/findAll/{page}/{size}")
+//    public Page<Book> findAll(@PathVariable("page") Integer page, @PathVariable("size") Integer size){
+//        PageRequest request = PageRequest.of(page,size);
+//        return bookRepository.findAll(request);
+//    }
+    @GetMapping("/findAll")
+    public Object findAll(Integer pages, Integer pageSize) {
+        PageRequest request = PageRequest.of(pages,pageSize);
         return bookRepository.findAll(request);
     }
 }
