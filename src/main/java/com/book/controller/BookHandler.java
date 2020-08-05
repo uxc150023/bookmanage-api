@@ -6,10 +6,7 @@ import com.book.result.JsonResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -22,15 +19,28 @@ public class BookHandler {
     @Autowired
     private BookRepository bookRepository;
 
-    @GetMapping("/findAll")
-//    public Page<Book> findAll(Integer pages, Integer pageSize) {
-//        PageRequest request = PageRequest.of(pages,pageSize);
-//        return bookRepository.findAll(request);
-//    }
-    public JsonResult<List> findAll(Integer pages, Integer pageSize) {
-//        List<Book> userList = new ArrayList<>();
+    @RequestMapping("/findAll")
+    public JsonResult<Object> findAll(Integer pageSize, Integer pages,Integer totalSize) {
         PageRequest request = PageRequest.of(pages,pageSize);
-        List<Book> userList = new ArrayList<>(request.);
-        return new JsonResult<>(userList, "获取用户列表成功");
+        Object obj = bookRepository.findAll(request);
+        return new JsonResult<>(obj);
+    }
+
+    @GetMapping("/bookInfo")
+    public JsonResult<Object> findById(Integer id){
+        Object obj = bookRepository.findById(id).get();
+        return new JsonResult<>(obj);
+    }
+
+    @PutMapping("/update")
+    public JsonResult<String> update(@RequestBody Book book){
+        Book result = bookRepository.save(book);
+        String bool;
+        if(result != null){
+            bool = "success";
+        }else{
+            bool = "false";
+        }
+        return new JsonResult<>(bool);
     }
 }
