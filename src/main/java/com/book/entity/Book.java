@@ -23,5 +23,5 @@ public class Book {
     private String author;
     private String publish;
     private Integer pages;
-    private Integer price;
+    private Float price;
 }
